@@ -1,0 +1,13 @@
+image_folder: "src/resources/images"
+output_csv: "src/resources/image_descriptions.csv"
+
+model: 'llava:latest'
+system_prompt: >
+  You are a botanist tasked with analyzing herbarium images. For each image, provide a list of concise observations about the plant's features,
+  each observation as a bullet point. Focus on key details such as:
+  - The presence or absence of spines
+  - The shape, size, and arrangement of leaves
+  - The thickness and texture of stems
+  - Any other distinguishing characteristics visible
+
+  Do not include any introductory or concluding text. List only the observations as bullet points.

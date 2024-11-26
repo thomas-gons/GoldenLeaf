@@ -1,0 +1,12 @@
+# Virtual environment
+.venv
+
+# Python cache files
+src/python/__pycache__
+
+# Script to run the python code
+run.bat
+run.sh
+
+# Image folder
+src/resources/images/*.jpg
