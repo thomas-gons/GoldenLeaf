@@ -1,5 +1,6 @@
 import glob
 from io import BytesIO
+import os
 import logging
 import yaml
 import pandas as pd
@@ -21,6 +22,14 @@ class HerbariumImageProcessor:
         self.output_csv = self.config["output_csv"]
         self.model = self.config["model"]
         self.system_prompt = self.config["system_prompt"]
+
+        self.already_computed_images = set()
+
+        if os.path.exists(self.output_csv):
+            existing_data = pd.read_csv(self.output_csv)
+            self.already_computed_images = set(existing_data['image'].tolist())
+        else:
+            pd.DataFrame(columns=['image', 'description']).to_csv(self.output_csv, index=False, encoding='utf-8')
 
     @staticmethod
     def load_config(config_path):
@@ -76,15 +85,20 @@ class HerbariumImageProcessor:
 
     def generate_descriptions_to_csv(self):
         """Génère des descriptions pour toutes les images et les sauvegarde dans un fichier CSV."""
-        image_files = self.get_jpg_files(self.image_folder)
+        image_files = [
+            image_file for image_file in self.get_jpg_files(self.image_folder)
+            if image_file not in self.already_computed_images
+        ]
+
         image_files.sort()
 
-        descriptions = []
+
         for image_file in tqdm(image_files, desc="Processing images"):
+
             description = self.process_image(image_file)
             if description:
-                descriptions.append({'image': image_file, 'description': description})
+                new_entry = pd.DataFrame([{'image': image_file, 'description': description}])
+                new_entry.to_csv(self.output_csv, mode='a', header=False, index=False, encoding='utf-8')
+                logger.info(f"Added description for {image_file} to {self.output_csv}")
 
-        df = pd.DataFrame(descriptions)
-        df.to_csv(self.output_csv, index=False, encoding='utf-8')
-        logger.info(f"Descriptions saved to {self.output_csv}")
+        logger.info(f"All descriptions have been computed.")

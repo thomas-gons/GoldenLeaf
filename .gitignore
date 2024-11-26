@@ -10,3 +10,5 @@ run.sh
 
 # Image folder
 src/resources/images/*.jpg
+
+.idea/
