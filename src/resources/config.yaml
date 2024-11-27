@@ -10,4 +10,4 @@ system_prompt: >
   - The thickness and texture of stems
   - Any other distinguishing characteristics visible
 
-  Do not include any introductory or concluding text. List only the observations as bullet points.
+  Do not include any introductory or concluding text. List only the observations as bullet points. Each observation should begin with the '-' caracter.
