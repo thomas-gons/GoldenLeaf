@@ -16,7 +16,6 @@ logger = logging.getLogger()
 
 class HerbariumImageProcessor:
     def __init__(self, config_path):
-        # Charger la configuration depuis le fichier YAML
         self.config = self.load_config(config_path)
         self.image_folder = self.config["image_folder"]
         self.output_csv = self.config["output_csv"]
