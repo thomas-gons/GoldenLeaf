@@ -2,13 +2,7 @@
 .venv
 
 # Python cache files
-src/python/__pycache__
-
-# Script to run the python code
-run.bat
-run.sh
+__pycache__
 
 # Image folder
-src/resources/images/*.jpg
-
-.idea/
+backend/resources/images/*.jpg

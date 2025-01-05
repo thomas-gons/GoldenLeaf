@@ -4,7 +4,7 @@ from parse_description import HerbariumDescriptionProcessor
 areDescriptionGenerated = True
 
 if __name__ == "__main__":
-    if(areDescriptionGenerated==False):
+    if areDescriptionGenerated == False:
         processor = HerbariumImageProcessor(config_path="src/resources/config.yaml")
         processor.generate_descriptions_to_csv()
 

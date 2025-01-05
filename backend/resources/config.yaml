@@ -1,6 +1,17 @@
 image_folder: "src/resources/images"
 output_csv: "src/resources/image_descriptions.csv"
 
+dataset_image_url: "local"
+dataset_path: "backend/src/resources/images"
+image_paths: 'backend/resources/image_paths.txt'
+
+database_uri: 'sqlite:///backend/resources/sqlite3.db'
+
+faiss_index_path: 'backend/resources/index.faiss'
+readonly_faiss_index_path: 'backend/resources/original_index.faiss'
+
+clip_model: 'zer0int/CLIP-GmP-ViT-L-14'
+
 model: 'llava:latest'
 system_prompt: >
   You are a botanist tasked with analyzing herbarium images. For each image, provide structured observations about the plant's features. 

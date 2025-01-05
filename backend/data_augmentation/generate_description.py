@@ -9,7 +9,6 @@ from ollama import generate
 from tqdm import tqdm
 
 
-# Configurer le logger
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger()
 
