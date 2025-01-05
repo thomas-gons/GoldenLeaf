@@ -6,3 +6,6 @@ __pycache__
 
 # Image folder
 backend/resources/images/*.jpg
+
+# Logs
+app.log
