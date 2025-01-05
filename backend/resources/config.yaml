@@ -2,7 +2,7 @@ image_folder: "src/resources/images"
 output_csv: "src/resources/image_descriptions.csv"
 
 dataset_image_url: "local"
-dataset_path: "backend/src/resources/images"
+dataset_path: "backend/resources/images"
 image_paths: 'backend/resources/image_paths.txt'
 
 database_uri: 'sqlite:///backend/resources/sqlite3.db'

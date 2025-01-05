@@ -91,7 +91,7 @@ class DatasetHandler:
                 logger.warning(f"Please add the local dataset to the correct path: {self.dataset_path}")
                 return 
             
-            logger.info("Local database found !")
+            logger.info("Local images found !")
 
             # Save images to the database
             logger.info("Saving images to the database...")
