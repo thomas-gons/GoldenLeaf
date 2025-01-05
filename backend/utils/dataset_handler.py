@@ -1,3 +1,4 @@
+import os
 import tarfile
 from pathlib import Path
 import requests
@@ -95,7 +96,9 @@ class DatasetHandler:
 
             # Save images to the database
             logger.info("Saving images to the database...")
-            self.save_to_db()
+            if not os.path.exists("backend/resources/sqlite3.db"):
+                self.save_to_db()
+
             return
 
         if self.dataset_path.exists() and any(self.dataset_path.iterdir()) and is_sample_db_built:

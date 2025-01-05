@@ -1,11 +1,17 @@
 # Virtual environment
-.venv
+.venv/
+
+.idea/
 
 # Python cache files
 __pycache__
 
 # Image folder
 backend/resources/images/*.jpg
+
+# Databases
+backend/resources/sqlite3.db
+backend/resources/index.faiss
 
 # Logs
 app.log

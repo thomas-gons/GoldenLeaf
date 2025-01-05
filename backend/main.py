@@ -1,3 +1,4 @@
+import os
 from typing import List
 from fastapi import FastAPI, HTTPException, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
@@ -32,6 +33,9 @@ app.add_middleware(
 logger.info("Downloading and preparing images if necessary.")
 dataset_handler.download_and_prepare_images(orm.is_sample_db_built())
 
+# Avoid embeddings' computation each time
+if not os.path.exists("backend/resources/index.faiss"):
+    vectorizer.generate_and_store_image_embeddings(faiss_helper, "backend/resources/images")
 
 @app.get("/api/findImagesForQuery/{query}", response_model=List[str])
 def find_images_for_query(query: str):
