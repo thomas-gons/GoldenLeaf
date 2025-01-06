@@ -1,43 +1,47 @@
 # GoldenLeaf
 
-GoldenLeaf is a Python application designed to create an image search system using the CLIP model. The project involves generating descriptions for images of herbariums, which are used for training the CLIP model on these images and their associated textual descriptions. This process enhances the multi-modal search capabilities of the system.
+GoldenLeaf is a Python application designed to create an image search system using the CLIP model. The project involves generating descriptions for herbarium images, which are used to train the CLIP model to associate images with their corresponding textual descriptions. This process enhances the multi-modal search capabilities of the system.
 
-## Prerequisites
+## Part 1: Description Generation
 
-Make sure you have the following installed:
+This section covers the setup and steps involved in generating descriptions for herbarium images using the Llava model.
+
+### Prerequisites
+
+Ensure the following are installed on your machine:
 
 | Package         | Version        |
 |-----------------|----------------|
 | Python          | 3.12 or greater|
 | Ollama          | 0.4.5 or greater|
 
-## Installation
+### Installation
 
-### 1. Install Python
+#### 1. Install Python
 
 Ensure you have Python 3.12 or newer installed on your machine. You can download Python from the official site: [Python Downloads](https://www.python.org/downloads/).
 
-### 2. Install Ollama
+#### 2. Install Ollama
 
 Download and install Ollama following the instructions on the official site: [Ollama Downloads](https://ollama.com/download).
 
-### 3. Install Python dependencies
+#### 3. Install Python dependencies
 
 Clone this repository and install the required Python dependencies using `pip` :
 
 ```bash
 git clone <YOUR_REPOSITORY_URL>
-cd GoldenLeaf
+cd GoldenLeaf/backend
 python -m venv .venv  # Create a virtual environment (optional but recommended)
 source .venv/bin/activate  # Activate the virtual environment
 pip install -r requirements.txt
 ```
 
-## Configuration
+### Configuration
 
 Before running the application, make sure to set up Ollama’s `llava:latest` model :
 
-### 1. Pull the `llava:latest` model
+#### 1. Pull the `llava:latest` model
 
 Download the `llava:latest` model with the following command :
 
@@ -45,7 +49,7 @@ Download the `llava:latest` model with the following command :
 ollama pull llava:latest
 ```
 
-### 2. Start Ollama server
+#### 2. Start Ollama server
 
 Once the model is downloaded, run Ollama using :
 
@@ -53,27 +57,27 @@ Once the model is downloaded, run Ollama using :
 ollama serve
 ```
 
-### 3. Configure the Application
+#### 3. Configure the Application
 
 Ensure that the `config.yaml` file is properly set up. This file should specify the parameters for image processing, model usage, and output paths. Adjust these settings according to your project's structure and requirements.
 
-## Running the Application
+### Running the Description Generation
 
-After setting up the dependencies and starting Ollama, you can run the application by executing `main.py` from the root directory. This will generate descriptions for the images and save them in a CSV file.
+After setting up the dependencies and starting Ollama, run the application by executing `main.py` from the `backend/data_augmentation/` directory. This will generate descriptions for the images and save them in a CSV file
 
 ```bash
-python src/python/main.py
+python backend/data_augmentation/main.py
 ```
 
 The application will process all images, generate descriptions, and save them to the specified output CSV. These descriptions will be used for data augmentation in training the CLIP model for image search functionality.
 
-## Key Features
+### Key Features
 
 - **Automated Image Description Generation:** Utilizes the Llava model to generate textual descriptions for herbarium images.
 - **Multi-modal Data Augmentation:** Enhances the dataset by pairing images with their corresponding descriptions, improving the CLIP model's training effectiveness.
 - **Customizable Configuration:** Easily adjust parameters through the `config.yaml` file to fit various datasets and requirements.
 
-## Challenges Addressed
+### Challenges Addressed
 
 - **Processing Time:** Local processing of large datasets was optimized to manage time constraints.
 - **Description Quality:** Initial descriptions were refined by defining a robust system prompt to ensure consistency and accuracy.
@@ -81,13 +85,17 @@ The application will process all images, generate descriptions, and save them to
 
 GoldenLeaf provides a streamlined approach to integrating image and text data for advanced search functionalities, leveraging the power of deep learning and multi-modal models.
 
-## How to Run the Project
+## Part 2: Running the Complete Application
 
-### Backend
+This section describes the steps to run the entire GoldenLeaf application, including the backend, frontend, and interaction with the image search system.
+
+### How to Run the Project
+
+#### Backend
 
 The backend is built using FastAPI and Uvicorn. To run the backend:
 
-1) **Create** a virtual environment and install dependencies (inside `backend/` repository):
+1) (If not already done) **Create** a virtual environment and install dependencies (inside `backend/` repository):
     ```bash
     pip install -r requirements.txt
     ```
@@ -99,7 +107,7 @@ The backend is built using FastAPI and Uvicorn. To run the backend:
 
 The API will be available at http://localhost:8000. The backend includes several endpoints for image search, uploading images, and removing images.
 
-### Frontend
+#### Frontend
 
 To set up and run the frontend:
 
@@ -114,13 +122,3 @@ To set up and run the frontend:
     ```
 
 The frontend will be available at http://localhost:8080. It will allow you to interact with the backend by uploading images or entering text queries.
-
-## Endpoints
-
-### `/api/findImagesForQuery/{query}`
-
-- **Method:** GET
-- **Description:** Search for images most similar to a given query (text).
-- **Parameters:**
-    - *query:* The search query (string).
-- **Response:** List of base64-encoded images most similar to the query.
