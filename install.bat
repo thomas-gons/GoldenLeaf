@@ -34,7 +34,7 @@ call .venv\Scripts\activate.bat
 
 :: Install dependencies
 pip install -r requirements.txt
-echo "To start the backend, you can run ``uvicorn main:app --host 0.0.0.0 --port 8000 --reload``"
+echo "To start the backend, you can run ``uvicorn backend.main:app --host 0.0.0.0 --port 8000``"
 
 :: Install frontend dependencies
 cd ../frontend
