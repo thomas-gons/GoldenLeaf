@@ -22,8 +22,26 @@ class Vectorizer:
         Initializes the CLIP model and processor on the appropriate device (CUDA if available).
         """
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
-        self.processor = AutoProcessor.from_pretrained("zer0int/CLIP-GmP-ViT-L-14")
-        self.model = AutoModelForZeroShotImageClassification.from_pretrained(config["clip_model"]).to(self.device)
+        self.models = config["clip_models"]
+        self.model_name = self.models[config["selected_clip_model"]]
+
+        # load finetuned model or base model
+        if self.model_name.split("/")[0] == "backend":
+            base_model_name = self.models[0]
+            self.processor = AutoProcessor.from_pretrained(base_model_name)
+            self.model = AutoModelForZeroShotImageClassification.from_pretrained(base_model_name).to(self.device)
+            checkpoint = torch.load(self.model_name, map_location=self.device, weights_only=True)
+
+            state_dict = checkpoint['state_dict'] if 'state_dict' in checkpoint else checkpoint
+            model_state_dict = self.model.state_dict()
+
+            state_dict = {k: v for k, v in state_dict.items() if k in model_state_dict}
+
+            self.model.load_state_dict(state_dict, strict=False)
+        else:
+            self.processor = AutoProcessor.from_pretrained(self.model_name)
+            self.model = AutoModelForZeroShotImageClassification.from_pretrained(self.model_name).to(self.device)
+
         logger.info("CLIP processor and model initialized on device: %s", self.device)
 
     @property
@@ -34,7 +52,10 @@ class Vectorizer:
         Returns:
             int: Dimension of the embedding vector.
         """
-        return self.model.config.projection_dim
+        if hasattr(self.model.config, "projection_dim"):
+            return self.model.config.projection_dim
+        elif hasattr(self.model, "text_model"):
+            return self.model.text_model.config.hidden_size
 
     def compute_image_embeddings(self, images: np.array, **kwargs) -> List[np.array]:
         """

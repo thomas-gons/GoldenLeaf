@@ -8,10 +8,14 @@ __pycache__
 
 # Image folder
 backend/resources/images/*.jpg
+backend/finetuning/src/resources/*
+backend/finetuning/logs
+
+# Finetuned models
+backend/finetuning/*.pth
 
 # Databases
 backend/resources/sqlite3.db
-backend/resources/index.faiss
 
 # Logs
 app.log

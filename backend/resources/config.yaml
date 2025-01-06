@@ -7,10 +7,16 @@ image_paths: 'backend/resources/image_paths.txt'
 
 database_uri: 'sqlite:///backend/resources/sqlite3.db'
 
-faiss_index_path: 'backend/resources/index.faiss'
+base_faiss_index_path: 'backend/resources/index'
 readonly_faiss_index_path: 'backend/resources/original_index.faiss'
 
-clip_model: 'zer0int/CLIP-GmP-ViT-L-14'
+clip_models: [
+     'openai/clip-vit-large-patch14',
+     'backend/finetuning/clip_finetuned.pth',
+     'google/siglip-so400m-patch14-384'
+]
+
+selected_clip_model: 2
 
 model: 'llava:latest'
 system_prompt: >

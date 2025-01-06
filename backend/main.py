@@ -10,7 +10,7 @@ from backend.orm import orm
 from backend.utils.faiss_helper import FaissHelper
 from backend.utils.dataset_handler import DatasetHandler
 from backend.utils.vectorizer import Vectorizer
-
+from backend import config
 
 # Initialize and configure FastAPI
 app = FastAPI()
@@ -18,7 +18,8 @@ app = FastAPI()
 # Initialize dataset handler and other components
 dataset_handler = DatasetHandler()
 vectorizer = Vectorizer()
-faiss_helper = FaissHelper(vectorizer.embedding_dim)
+faiss_index_path = config['base_faiss_index_path'] + "_" + vectorizer.model_name.replace('/', '_') + ".faiss"
+faiss_helper = FaissHelper(vectorizer.embedding_dim, faiss_index_path)
 
 # Set up CORS to allow requests from any origin
 app.add_middleware(
@@ -34,7 +35,7 @@ logger.info("Downloading and preparing images if necessary.")
 dataset_handler.download_and_prepare_images(orm.is_sample_db_built())
 
 # Avoid embeddings' computation each time
-if not os.path.exists("backend/resources/index.faiss"):
+if not os.path.exists(faiss_index_path):
     vectorizer.generate_and_store_image_embeddings(faiss_helper, "backend/resources/images")
 
 @app.get("/api/findImagesForQuery/{query}", response_model=List[str])

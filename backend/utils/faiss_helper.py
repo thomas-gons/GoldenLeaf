@@ -11,7 +11,7 @@ class FaissHelper:
     A helper class for managing and querying a Faiss index with vector embeddings.
     """
 
-    def __init__(self, embedding_dim: int):
+    def __init__(self, embedding_dim: int, faiss_index_path: str = None):
         """
         Initializes the Faiss index for embedding similarity searches.
         Loads an existing index if available, otherwise creates a new index.
@@ -20,13 +20,10 @@ class FaissHelper:
             embedding_dim (int): The dimension of the embedding vectors.
         """
         self.embedding_dim = embedding_dim
-        self.index_path = config['faiss_index_path']
-        readonly_faiss_index_path = config['readonly_faiss_index_path']
+        self.index_path = faiss_index_path
 
         if Path(self.index_path).exists():
             self.index = faiss.read_index(self.index_path)
-        elif Path(readonly_faiss_index_path).exists():
-            self.index = faiss.read_index(readonly_faiss_index_path)
         else:
             self.index = faiss.IndexFlatL2(self.embedding_dim)
 
