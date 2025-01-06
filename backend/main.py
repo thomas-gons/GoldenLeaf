@@ -54,7 +54,7 @@ def find_images_for_query(query: str):
     """
     # Use FAISS to find the most similar images for the query
     embedding = vectorizer.compute_text_embedding(query)
-    distances, indices = faiss_helper.search(embedding, k=4)
+    distances, indices = faiss_helper.search(embedding, k=12)
     
     if indices.size == 0:
         logger.warning("No similar images found for this query.")
